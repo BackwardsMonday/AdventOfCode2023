@@ -11,6 +11,9 @@ with open("../day2/data.txt", "r") as f:
         gameId = int(re.search(r"^\D*(\d*)\D", line).groups()[0])
         print(gameId)
         hands = line.split(":")[1].split(";")
+        minRed = 0
+        minBlue = 0
+        minGreen = 0
         for hand in hands:
             red = re.search(colorRe["red"], hand)
             if not red:
@@ -27,9 +30,16 @@ with open("../day2/data.txt", "r") as f:
                 green = 0
             else:
                 green = int(green.groups()[0])
-            if red > 12 or blue > 14 or green > 13:
-                print(f"breaking: red:{red}, blue:{blue}, green: {green}")
-                break
-        else:
-            dataSum += gameId
+            minRed = max(minRed, red)
+            minBlue = max(minBlue, blue)
+            minGreen = max(minGreen, green)
+            # if red > 12 or blue > 14 or green > 13:
+            #     print(f"breaking: red:{red}, blue:{blue}, green: {green}")
+            #     break
+        #else:
+        minPower = minRed*minBlue*minGreen
+        dataSum += minPower
+
+
+        
     print(dataSum)
